@@ -3,15 +3,39 @@ from torchvision import transforms
 
 from src.datasets.volleyball_player_dataset import VolleyballB3Dataset
 from src.utils.label_encoder import LabelEncoder
+from torchvision import transforms
+
+train_transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.RandomHorizontalFlip(p=0.5),        # Flip عشوائي
+    transforms.ColorJitter(
+        brightness=0.3, 
+        contrast=0.3, 
+        saturation=0.2, 
+        hue=0.1
+    ),                                             # تعديل ألوان عشوائي
+    transforms.RandomRotation(degrees=15),        # دوران خفيف للصور
+    transforms.RandomAffine(
+        degrees=0, 
+        translate=(0.1, 0.1), 
+        scale=(0.9, 1.1)
+    ),                                             # تحريك / تكبير/تصغير خفيف
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                         std=[0.229, 0.224, 0.225])
+])
 
 
 def main():
     transform = transforms.Compose([
-    transforms.Resize((224,224)),
-    transforms.RandomHorizontalFlip(),
-    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.Resize((224, 224)),
+    transforms.RandomHorizontalFlip(p=0.5),        
+    transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.2, hue=0.1),                                             
+    transforms.RandomRotation(degrees=15),        
+    transforms.RandomAffine(degrees=0, translate=(0.1, 0.1), scale=(0.9, 1.1)),                                             
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485,0.456,0.406], std=[0.229,0.224,0.225])
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                         std=[0.229, 0.224, 0.225])
 ])
 
     class_names = ["waiting", "setting", "digging", "falling", "spiking", "blocking", "jumping", "moving", "standing"]

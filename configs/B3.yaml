@@ -29,8 +29,8 @@ labels:
     - standing
 
 training:
-  epochs: 3
-  batch_size: 2
+  epochs: 4
+  batch_size: 3
   lr: 0.0001
   optimizer: AdamW
   weight_decay: 0.0001
