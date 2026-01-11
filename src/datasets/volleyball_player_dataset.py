@@ -1,17 +1,27 @@
 from torch.utils.data import Dataset
 from PIL import Image
-import torch
 import pickle
 import os
 
+
 class VolleyballB3Dataset(Dataset):
-    
-    def __init__(self, pickle_file, videos_root, video_list,encoder, transform=None, multiple_frames=False):
-        
+
+    def __init__(
+        self,
+        pickle_file,
+        videos_root,
+        video_list,
+        encoder,
+        transform=None,
+        multiple_frames=False
+    ):
+
         self.videos_root = videos_root
         self.transform = transform
-        self.samples = [] 
-        self.encoder=encoder
+        self.encoder = encoder
+
+        self.samples = []   # (img_path, box_coords, label_int)
+        self.labels = []    # labels only (for class weights)
 
         # Load annotations
         with open(pickle_file, "rb") as f:
@@ -26,35 +36,38 @@ class VolleyballB3Dataset(Dataset):
             clips = self.videos_annot[video_dir]
 
             for clip_dir, clip_data in clips.items():
-                frame_ids = sorted(clip_data['frame_boxes_dct'].keys())
+                frame_ids = sorted(clip_data["frame_boxes_dct"].keys())
                 if len(frame_ids) == 0:
                     continue
 
                 if multiple_frames:
                     mid_idx = len(frame_ids) // 2
-                    start = max(0, mid_idx-5)
-                    end = min(len(frame_ids), mid_idx+5)
+                    start = max(0, mid_idx - 5)
+                    end = min(len(frame_ids), mid_idx + 5)
                     selected_frame_ids = frame_ids[start:end]
                 else:
-                    selected_frame_ids = [frame_ids[len(frame_ids)//2]]
+                    selected_frame_ids = [frame_ids[len(frame_ids) // 2]]
 
                 for frame_id in selected_frame_ids:
-                    boxes = clip_data['frame_boxes_dct'][frame_id]
-                    img_path = os.path.join(videos_root, video_dir, clip_dir, f"{frame_id}.jpg")
+                    boxes = clip_data["frame_boxes_dct"][frame_id]
+                    img_path = os.path.join(
+                        videos_root, video_dir, clip_dir, f"{frame_id}.jpg"
+                    )
+
                     for box in boxes:
-                        self.samples.append((img_path, box.box, box.category))
+                        label_int = self.encoder.encode(box.category)
+                        self.samples.append((img_path, box.box, label_int))
+                        self.labels.append(label_int)
 
     def __len__(self):
         return len(self.samples)
 
     def __getitem__(self, idx):
 
-        img_path, box_coords, label = self.samples[idx]
+        img_path, box_coords, label_int = self.samples[idx]
         x1, y1, x2, y2 = box_coords
-        label_int=self.encoder.encode(label)
 
         img = Image.open(img_path).convert("RGB")
-
         img_crop = img.crop((x1, y1, x2, y2))
 
         if self.transform:

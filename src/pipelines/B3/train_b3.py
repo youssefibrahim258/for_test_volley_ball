@@ -64,7 +64,7 @@ def train_b3(cfg):
         videos_root,
         val_videos_list,
         encoder,
-        train_transform
+        val_transform
     )
     train_loader = DataLoader(
         train_dataset,
@@ -82,23 +82,23 @@ def train_b3(cfg):
         pin_memory=True
     )
 
-    # Class Weights
-    labels_all = [label for _, label in train_dataset]
+    labels_all = train_dataset.labels
     counter = Counter(labels_all)
 
     num_classes = len(encoder.classes_)
     total_samples = sum(counter.values())
 
     class_weights = [
-        total_samples / (num_classes * counter[i])
-        if counter[i] > 0 else 0.0
-        for i in range(num_classes)
+    total_samples / (num_classes * counter[i])
+    if counter[i] > 0 else 0.0
+    for i in range(num_classes)
     ]
 
     class_weights = torch.tensor(
-        class_weights,
-        dtype=torch.float
+    class_weights,
+    dtype=torch.float
     ).to(device)
+
 
     model=ResNetB1(num_classes=cfg["num_classes"]).to(device)
     criterion = nn.CrossEntropyLoss(weight=class_weights)
@@ -141,5 +141,3 @@ def train_b3(cfg):
     writer.close()
     logger.info("B1 Training Finished")
 
-if __name__ == "__main__":
-    train_b3(34)
