@@ -71,15 +71,17 @@ def train_b3(cfg):
         batch_size=cfg["training"]["batch_size"],
         shuffle=True,
         num_workers=cfg["training"]["num_workers"],
-        pin_memory=True
+        pin_memory=True,
+        persistent_workers=True
     )
 
     val_loader = DataLoader(
         val_dataset,
         batch_size=cfg["training"]["batch_size"],
         shuffle=False,
-        num_workers=0,
-        pin_memory=True
+        num_workers=cfg["training"]["num_workers"],
+        pin_memory=True,
+        persistent_workers=True
     )
 
     labels_all = train_dataset.labels
@@ -115,7 +117,7 @@ def train_b3(cfg):
             gamma=0.1
         )
 
-    logger.info("Starting B1 Training")
+    logger.info("Starting B3 Training")
     logger.info(f"Device: {device}")
 
     logger.info(f"Train class distribution: {counter}")
