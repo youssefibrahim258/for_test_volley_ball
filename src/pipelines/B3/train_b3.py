@@ -25,19 +25,19 @@ def train_b3(cfg):
     logger = setup_logger(os.path.join(cfg["output"]["results_dir"], "logs"), "train_b3")
     writer = SummaryWriter(log_dir=os.path.join(cfg["output"]["results_dir"], "tensorboard"))
 
-    # -------------------
     # Transforms
-    # -------------------
     train_transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.RandomHorizontalFlip(p=0.5),
-        transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.2, hue=0.1),
-        transforms.RandomRotation(degrees=15),
-        transforms.RandomAffine(degrees=0, translate=(0.1, 0.1), scale=(0.9, 1.1)),
+        transforms.ColorJitter(brightness=0.2,contrast=0.2,saturation=0.15,hue=0.05),
+        transforms.RandomRotation(degrees=5),
+        transforms.RandomAffine(degrees=0,translate=(0.05, 0.05),scale=(0.95, 1.05)),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])
-    ])
+        transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225]
+        )
+])
 
     val_transform = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -46,9 +46,7 @@ def train_b3(cfg):
                              std=[0.229, 0.224, 0.225])
     ])
 
-    # -------------------
     # Dataset & Encoder
-    # -------------------
     encoder = LabelEncoder(cfg["labels"]["class_names"])
     pickle_file = cfg["data"]["annot_file"]
     videos_root = os.path.join(cfg["data"]["videos_dir"], "videos")
@@ -62,6 +60,8 @@ def train_b3(cfg):
         encoder,
         train_transform
     )
+    # print(Counter(train_dataset.labels))
+
 
     val_dataset = VolleyballB3Dataset(
         pickle_file,
@@ -71,9 +71,7 @@ def train_b3(cfg):
         val_transform
     )
 
-    # -------------------
     # Class weights
-    # -------------------
     labels_all = [label for _, label in train_dataset]
     counter = Counter(labels_all)
 
@@ -88,9 +86,7 @@ def train_b3(cfg):
 
     class_weights = torch.tensor(class_weights, dtype=torch.float).to(device)
 
-    # -------------------
     # WeightedRandomSampler
-    # -------------------
     sample_weights = [class_weights[label].item() for label in labels_all]
     sampler = WeightedRandomSampler(weights=sample_weights,
                                     num_samples=len(sample_weights),
@@ -104,6 +100,7 @@ def train_b3(cfg):
         pin_memory=True,
         persistent_workers=True
     )
+    
 
     val_loader = DataLoader(
         val_dataset,
@@ -114,9 +111,7 @@ def train_b3(cfg):
         persistent_workers=True
     )
 
-    # -------------------
     # Model, criterion, optimizer
-    # -------------------
     model = ResNetB1(num_classes=cfg["num_classes"]).to(device)
     criterion = nn.CrossEntropyLoss(weight=class_weights)
 
@@ -132,9 +127,7 @@ def train_b3(cfg):
         gamma=0.1
     )
 
-    # -------------------
     # Logging
-    # -------------------
     logger.info("Starting B3 Training")
     logger.info(f"Device: {device}")
     logger.info(f"Train class distribution: {counter}")
