@@ -13,6 +13,8 @@ from src.utils.label_encoder import LabelEncoder
 from src.models.b1_resnet import ResNetB1
 from src.mlflow.logger import start_mlflow, end_mlflow
 from src.engine.trainer import train
+from src.utils.focal_loss import FocalLoss
+
 
 
 def train_b3(cfg):
@@ -28,16 +30,13 @@ def train_b3(cfg):
     # Transforms
     train_transform = transforms.Compose([
         transforms.Resize((224, 224)),
-        transforms.RandomHorizontalFlip(p=0.5),  
-        transforms.ColorJitter(brightness=0.1,contrast=0.1,saturation=0.1,hue=0.05),
-        transforms.RandomRotation(degrees=3),      
-        transforms.RandomAffine(degrees=0,translate=(0.03, 0.03),scale=(0.97, 1.03)),
+        transforms.RandomHorizontalFlip(p=0.5),
+        transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.05),
+        transforms.RandomRotation(degrees=3),
+        transforms.RandomAffine(degrees=0, translate=(0.03,0.03), scale=(0.97,1.03)),
         transforms.ToTensor(),
-        transforms.Normalize(
-            mean=[0.485, 0.456, 0.406],
-            std=[0.229, 0.224, 0.225]
-        )
-])
+        transforms.Normalize(mean=[0.485,0.456,0.406], std=[0.229,0.224,0.225])
+    ])
 
     val_transform = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -113,7 +112,7 @@ def train_b3(cfg):
 
     # Model, criterion, optimizer
     model = ResNetB1(num_classes=cfg["num_classes"]).to(device)
-    criterion = nn.CrossEntropyLoss(weight=class_weights)
+    criterion = FocalLoss(gamma=2.0, weight=class_weights)
 
     optimizer = torch.optim.AdamW(
         model.parameters(),
