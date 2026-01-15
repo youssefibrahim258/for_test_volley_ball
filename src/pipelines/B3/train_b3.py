@@ -94,7 +94,6 @@ def train_b3(cfg):
     train_loader = DataLoader(
         train_dataset,
         batch_size=cfg["training"]["batch_size"],
-        sampler=sampler,
         num_workers=cfg["training"]["num_workers"],
         pin_memory=True,
         persistent_workers=True
@@ -112,7 +111,7 @@ def train_b3(cfg):
 
     # Model, criterion, optimizer
     model = ResNetB1(num_classes=cfg["num_classes"]).to(device)
-    criterion = FocalLoss(gamma=2.0, weight=class_weights)
+    criterion = FocalLoss(gamma=1.5, weight=class_weights)
 
     optimizer = torch.optim.AdamW(
         model.parameters(),
