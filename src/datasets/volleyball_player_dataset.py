@@ -12,7 +12,7 @@ class VolleyballB3Dataset(Dataset):
         self.transform = transform
         self.encoder = encoder
         standing_count = 0
-        MAX_STANDING = 4000
+        MAX_STANDING = 5000
         STANDING_CLASS = 8
 
         self.samples = []   # (img_path, box_coords, label_int)
