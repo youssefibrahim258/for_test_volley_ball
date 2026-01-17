@@ -138,7 +138,6 @@ def train_b3(cfg):
     mode="max",          
     factor=0.5,          
     patience=3,          
-    verbose=True,
     min_lr=1e-6)
 
     # Logging
