@@ -36,9 +36,8 @@ def main():
     img_crop, label_id1 = dataset[8]
     print(label_id1)
     label_name = encoder.decode(label_id1)
-    img = img_crop.permute(1, 2, 0).numpy()  # C,H,W -> H,W,C
+    img = img_crop.permute(1, 2, 0).numpy()  
 
-# 2️⃣ اعرض الصورة
     plt.imshow(img)
     plt.title(label_name)
     plt.axis('off')

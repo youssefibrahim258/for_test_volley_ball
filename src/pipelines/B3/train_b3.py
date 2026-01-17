@@ -16,6 +16,45 @@ from src.engine.trainer import train
 from src.utils.focal_loss import FocalLoss
 
 
+import matplotlib.pyplot as plt
+import random
+import torch
+
+def show_random_samples_per_class(dataset, encoder, samples_per_class=1):
+    """
+    Show random samples from each class in the dataset.
+    
+    Args:
+        dataset: PyTorch Dataset (train_dataset)
+        encoder: label encoder (to get class names)
+        samples_per_class: number of samples to show per class
+    """
+    num_classes = len(encoder.classes_)
+    fig, axes = plt.subplots(num_classes, samples_per_class, figsize=(samples_per_class*3, num_classes*3))
+
+    # Make sure axes is 2D
+    if samples_per_class == 1:
+        axes = axes[:, None]
+
+    for cls in range(num_classes):
+        # Find all indices for this class
+        indices = [i for i, (_, label) in enumerate(dataset) if label == cls]
+        if not indices:
+            continue
+        # Pick random samples
+        chosen_indices = random.sample(indices, min(samples_per_class, len(indices)))
+        for j, idx in enumerate(chosen_indices):
+            img, label = dataset[idx]
+            # Convert Tensor to HWC for plt
+            if isinstance(img, torch.Tensor):
+                img = img.permute(1, 2, 0).cpu().numpy()
+            axes[cls, j].imshow(img)
+            axes[cls, j].set_title(f"{encoder.classes_[label]}")
+            axes[cls, j].axis('off')
+    
+    plt.tight_layout()
+    plt.show()
+
 
 def train_b3(cfg):
     set_seed(42)
@@ -69,6 +108,8 @@ def train_b3(cfg):
         encoder,
         val_transform
     )
+    show_random_samples_per_class(train_dataset, encoder, samples_per_class=2)
+    return
 
     # Class weights
     labels_all = [label for _, label in train_dataset]
