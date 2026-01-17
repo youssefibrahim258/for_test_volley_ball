@@ -23,7 +23,7 @@ def main():
     
     elif cfg["baseline"] == "B3":
         train_b3(cfg)
-        return
+        # return
         eval_b3(cfg)
     else:
         raise NotImplementedError(f"{cfg['baseline']} not implemented yet")
