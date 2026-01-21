@@ -13,6 +13,7 @@ from src.utils.label_encoder import LabelEncoder
 from src.models.b1_resnet import ResNetB1
 from src.mlflow.logger import start_mlflow, end_mlflow
 from src.engine.trainer import train
+from src.utils_data.collate_fn import my_collate_fn
 from src.utils.focal_loss import FocalLoss
 
 
@@ -98,7 +99,8 @@ def train_b3(cfg):
         shuffle=True,
         num_workers=cfg["training"]["num_workers"],
         pin_memory=True,
-        persistent_workers=True
+        persistent_workers=True,
+        collate_fn=my_collate_fn
     )
 
 
@@ -108,7 +110,8 @@ def train_b3(cfg):
         shuffle=False,
         num_workers=cfg["training"]["num_workers"],
         pin_memory=True,
-        persistent_workers=True
+        persistent_workers=True,
+        collate_fn=my_collate_fn
     )
 
     # Model, criterion, optimizer

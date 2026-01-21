@@ -10,6 +10,8 @@ from src.utils.logger import setup_logger
 from src.utils.set_seed import set_seed
 from src.engine.evaluator import evaluate
 from src.mlflow.logger import start_mlflow, end_mlflow
+from src.utils_data.collate_fn import my_collate_fn
+
 
 
 def eval_b3(cfg):
@@ -45,7 +47,7 @@ def eval_b3(cfg):
         videos_root,
         video_list=[str(v) for v in cfg["data"]["splits"]["test"]],
         encoder=encoder,
-        transform=transform
+        transform=transform,
     )
 
     test_loader = DataLoader(
@@ -53,7 +55,8 @@ def eval_b3(cfg):
         batch_size=cfg["training"]["batch_size"],
         shuffle=False,
         num_workers=0,
-        pin_memory=True
+        pin_memory=True,
+        collate_fn=my_collate_fn
     )
 
     # Model
