@@ -87,21 +87,20 @@ def train_b3(cfg):
     class_weights = torch.tensor(class_weights, dtype=torch.float).to(device)
 
     # WeightedRandomSampler
-    sample_weights = [class_weights[label].item() for label in labels_all]
-    sampler = WeightedRandomSampler(weights=sample_weights,
-                                    num_samples=len(sample_weights),
-                                    replacement=True)
+    # sample_weights = [class_weights[label].item() for label in labels_all]
+    # sampler = WeightedRandomSampler(weights=sample_weights,
+    #                                 num_samples=len(sample_weights),
+    #                                 replacement=True)
 
     train_loader = DataLoader(
         train_dataset,
         batch_size=cfg["training"]["batch_size"],
-        sampler=sampler,            
+        shuffle=True,
         num_workers=cfg["training"]["num_workers"],
         pin_memory=True,
         persistent_workers=True
     )
 
-    
 
     val_loader = DataLoader(
         val_dataset,
@@ -115,7 +114,7 @@ def train_b3(cfg):
     # Model, criterion, optimizer
     model = ResNetB1(num_classes=cfg["num_classes"]).to(device)
     # criterion = FocalLoss(gamma=1.5, weight=class_weights)
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss(weight=class_weights)
 
     optimizer = torch.optim.AdamW(
         model.parameters(),

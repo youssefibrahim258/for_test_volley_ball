@@ -86,4 +86,4 @@ def eval_b3(cfg):
     )
 
     end_mlflow()
-    logger.info("B1 TEST evaluation finished successfully")
+    logger.info("B3 TEST evaluation finished successfully")
