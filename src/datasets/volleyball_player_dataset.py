@@ -12,7 +12,7 @@ class VolleyballB3Dataset(Dataset):
         self.transform = transform
         self.encoder = encoder
         standing_count = 0
-        # MAX_STANDING = 5000
+        MAX_STANDING = 2500
         STANDING_CLASS = 8
 
         self.samples = []   # (img_path, box_coords, label_int)
@@ -52,10 +52,10 @@ class VolleyballB3Dataset(Dataset):
                     for box in boxes:
                         label_int = self.encoder.encode(box.category)
 
-                        # if label_int == STANDING_CLASS:
-                        #     if standing_count >= MAX_STANDING:
-                        #         continue
-                        #     standing_count += 1
+                        if label_int == STANDING_CLASS:
+                            if standing_count >= MAX_STANDING:
+                                continue
+                            standing_count += 1
 
                         self.samples.append((img_path, box.box, label_int))
                         self.labels.append(label_int)
