@@ -10,12 +10,11 @@ from src.utils.set_seed import set_seed
 from src.utils.logger import setup_logger
 from src.datasets.volleyball_player_dataset import VolleyballB3Dataset
 from src.utils.label_encoder import LabelEncoder
-from src.models.b1_resnet import ResNetB1
+from src.models.b3_a_resnet import ResNetB3
 from src.mlflow.logger import start_mlflow, end_mlflow
 from src.engine.trainer import train
 from src.utils_data.collate_fn import my_collate_fn
 from src.utils.focal_loss import FocalLoss
-
 
 
 def train_b3(cfg):
@@ -30,21 +29,19 @@ def train_b3(cfg):
 
     # Transforms
     train_transform = transforms.Compose([
-        transforms.Resize((224, 224)),
+        transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
         transforms.RandomHorizontalFlip(p=0.5),
-        transforms.ColorJitter(brightness=0.1,contrast=0.1,saturation=0.1),
+        transforms.RandomRotation(10),
+        transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1),
         transforms.ToTensor(),
-        transforms.Normalize(
-            mean=[0.485,0.456,0.406],
-            std=[0.229,0.224,0.225]
-        )
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        transforms.RandomErasing(p=0.2, scale=(0.02, 0.2))
     ])
 
     val_transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
 
     # Dataset & Encoder
@@ -59,17 +56,17 @@ def train_b3(cfg):
         videos_root,
         train_videos_list,
         encoder,
-        train_transform
+        train_transform,
+        multiple_frames=False
     )
-    # print(Counter(train_dataset.labels))
-
 
     val_dataset = VolleyballB3Dataset(
         pickle_file,
         videos_root,
         val_videos_list,
         encoder,
-        val_transform
+        val_transform,
+        multiple_frames=False
     )
 
     # Class weights
@@ -80,29 +77,26 @@ def train_b3(cfg):
     total_samples = sum(counter.values())
 
     class_weights = [
-        total_samples / (num_classes * counter[i])
-        if counter[i] > 0 else 0.0
+        total_samples / (num_classes * counter[i]) if counter[i] > 0 else 0.0
         for i in range(num_classes)
     ]
-
     class_weights = torch.tensor(class_weights, dtype=torch.float).to(device)
 
-    # WeightedRandomSampler
-    # sample_weights = [class_weights[label].item() for label in labels_all]
-    # sampler = WeightedRandomSampler(weights=sample_weights,
-    #                                 num_samples=len(sample_weights),
-    #                                 replacement=True)
+    sample_weights = [class_weights[label].item() for label in labels_all]
+    sampler = WeightedRandomSampler(weights=sample_weights,
+                                    num_samples=len(sample_weights),
+                                    replacement=True)
 
     train_loader = DataLoader(
         train_dataset,
         batch_size=cfg["training"]["batch_size"],
-        shuffle=True,
+        shuffle=False,  # False مع sampler
+        sampler=sampler,
         num_workers=cfg["training"]["num_workers"],
         pin_memory=True,
         persistent_workers=True,
         collate_fn=my_collate_fn
     )
-
 
     val_loader = DataLoader(
         val_dataset,
@@ -115,8 +109,9 @@ def train_b3(cfg):
     )
 
     # Model, criterion, optimizer
-    model = ResNetB1(num_classes=cfg["num_classes"]).to(device)
-    # criterion = FocalLoss(gamma=1.5, weight=class_weights)
+    model = ResNetB3(num_classes=cfg["num_classes"]).to(device)
+
+    # Criterion
     criterion = nn.CrossEntropyLoss(weight=class_weights)
 
     optimizer = torch.optim.AdamW(
@@ -125,17 +120,13 @@ def train_b3(cfg):
         weight_decay=cfg["training"]["weight_decay"]
     )
 
-    # scheduler = torch.optim.lr_scheduler.StepLR(
-    #     optimizer,
-    #     step_size=5,
-    #     gamma=0.1
-    # )
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-    optimizer,
-    mode="max",          
-    factor=0.5,          
-    patience=3,          
-    min_lr=1e-6)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(
+        optimizer,
+        max_lr=cfg["training"]["lr"],
+        steps_per_epoch=len(train_loader),
+        epochs=cfg["training"]["epochs"],
+        anneal_strategy='cos'
+    )
 
     # Logging
     logger.info("Starting B3 Training")

@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 
 from src.datasets.volleyball_player_dataset import VolleyballB3Dataset
-from src.models.b1_resnet import ResNetB1
+from src.models.b3_a_resnet import ResNetB3
 from src.utils.label_encoder import LabelEncoder
 from src.utils.logger import setup_logger
 from src.utils.set_seed import set_seed
@@ -60,7 +60,7 @@ def eval_b3(cfg):
     )
 
     # Model
-    model = ResNetB1(num_classes=9).to(device)
+    model = ResNetB3(num_classes=9).to(device)
 
     checkpoint = os.path.join(
         cfg["output"]["checkpoints_dir"],
