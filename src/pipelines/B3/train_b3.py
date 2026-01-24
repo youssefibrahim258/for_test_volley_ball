@@ -125,7 +125,7 @@ def train_b3(cfg):
     #     step_size=5,
     #     gamma=0.1
     # )
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,mode="max",factor=0.1,patience=3)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="max", factor=0.5, patience=3, min_lr=1e-6)
 
     # Logging
     logger.info("Starting B3 Training")
