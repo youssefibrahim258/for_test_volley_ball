@@ -8,36 +8,22 @@ from torchvision import transforms
 
 def main():
     transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-
-    transforms.RandomApply([
-        transforms.GaussianBlur(kernel_size=5),
-    ], p=0.15),
-
-    transforms.RandomApply([
-        transforms.ColorJitter(
-            brightness=0.15,
-            contrast=0.15,
-            saturation=0.1
+            transforms.Resize((224, 224)),
+            transforms.RandomHorizontalFlip(p=0.4),
+            transforms.RandomRotation(degrees=10),
+            transforms.ToTensor(),
+            transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225]
         )
-    ], p=0.2),
-
-    transforms.RandomHorizontalFlip(p=0.5),
-
-    transforms.ToTensor(),
-
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
-    ),
-])
+        ])
     
-    val_transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])
-    ])
+    # val_transform = transforms.Compose([
+    #     transforms.Resize((224, 224)),
+    #     transforms.ToTensor(),
+    #     transforms.Normalize(mean=[0.485, 0.456, 0.406],
+    #                          std=[0.229, 0.224, 0.225])
+    # ])
 
     class_names = ["waiting", "setting", "digging", "falling", "spiking", "blocking", "jumping", "moving", "standing"]
 
@@ -55,7 +41,7 @@ def main():
 
     print("Dataset size:", len(dataset))
 
-    img_crop, label_id1 = dataset[18]
+    img_crop, label_id1 = dataset[8]
     print(label_id1)
     label_name = encoder.decode(label_id1)
     img = img_crop.permute(1, 2, 0).numpy()  

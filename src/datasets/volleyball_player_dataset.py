@@ -68,12 +68,12 @@ class VolleyballB3Dataset(Dataset):
 
         img_path, box_coords, label_int = self.samples[idx]
         x1, y1, x2, y2 = box_coords
-        w = x2 - x1
-        h = y2 - y1
-        x1 = max(0, x1 - 0.15 * w)
-        y1 = max(0, y1 - 0.15 * h)
-        x2 = x2 + 0.15 * w
-        y2 = y2 + 0.15 * h
+        # w = x2 - x1
+        # h = y2 - y1
+        # x1 = max(0, x1 - 0.15 * w)
+        # y1 = max(0, y1 - 0.15 * h)
+        # x2 = x2 + 0.15 * w
+        # y2 = y2 + 0.15 * h
 
         img = Image.open(img_path).convert("RGB")
         img_crop = img.crop((x1, y1, x2, y2))
