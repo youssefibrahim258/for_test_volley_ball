@@ -35,8 +35,6 @@ def prepare_model(image_level=False):
 
     ...
 
-
-
 if __name__ == "__main__":
     image_level=False
 
