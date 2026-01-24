@@ -92,7 +92,7 @@ def train(model, train_loader, val_loader, criterion, optimizer, scheduler, devi
         val_f1_history.append(val_f1)
 
         if scheduler is not None:
-            scheduler.step(val_f1)
+            scheduler.step(val_loss)
 
         # Logging 
         logger.info(
