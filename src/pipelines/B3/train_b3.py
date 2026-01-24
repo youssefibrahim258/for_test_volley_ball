@@ -30,15 +30,15 @@ def train_b3(cfg):
 
     # Transforms
     train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(224, scale=(0.7, 1.0)),
-        transforms.RandomHorizontalFlip(p=0.5),
-        transforms.RandomRotation(15),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485,0.456,0.406],
-                            std=[0.229,0.224,0.225]),
-        transforms.RandomErasing(p=0.3, scale=(0.02, 0.25))
-])
+            transforms.Resize((224, 224)),
+            transforms.RandomHorizontalFlip(p=0.4),
+            transforms.RandomRotation(degrees=10),
+            transforms.ToTensor(),
+            transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225]
+        )
+        ])
 
     val_transform = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -112,7 +112,7 @@ def train_b3(cfg):
 
     # Model, criterion, optimizer
     model = ResNetB3(num_classes=cfg["num_classes"]).to(device)
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
 
     optimizer = torch.optim.AdamW(
         model.parameters(),
@@ -125,7 +125,7 @@ def train_b3(cfg):
     #     step_size=5,
     #     gamma=0.1
     # )
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,mode="min",factor=0.1,patience=3)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,mode="max",factor=0.1,patience=3)
 
     # Logging
     logger.info("Starting B3 Training")

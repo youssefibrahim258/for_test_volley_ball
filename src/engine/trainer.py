@@ -45,7 +45,7 @@ def train(model, train_loader, val_loader, criterion, optimizer, scheduler, devi
 
             if mixup:
                 # Mixup for loss
-                imgs_mixed, targets_a, targets_b, lam = mixup_data(imgs, labels, alpha=1.0)
+                imgs_mixed, targets_a, targets_b, lam = mixup_data(imgs, labels, alpha=0.2)
                 outputs = model(imgs_mixed)
                 loss = mixup_criterion(criterion, outputs, targets_a, targets_b, lam)
 
@@ -92,7 +92,7 @@ def train(model, train_loader, val_loader, criterion, optimizer, scheduler, devi
         val_f1_history.append(val_f1)
 
         if scheduler is not None:
-            scheduler.step(val_loss)
+            scheduler.step(val_f1)
 
         # Logging 
         logger.info(
