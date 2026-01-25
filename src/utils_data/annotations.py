@@ -134,4 +134,5 @@ if __name__ == '__main__':
 
     # vis_clip(annot_file, clip_dir_path)
     create_pkl_version()
+    load_tracking_annot
 
