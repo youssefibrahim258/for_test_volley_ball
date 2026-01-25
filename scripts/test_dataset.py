@@ -1,9 +1,14 @@
 
 # python -m scripts.test_dataset
 import matplotlib.pyplot as plt
+import yaml
+import os
 from torchvision import transforms
 from src.datasets.volleyball_player_dataset import VolleyballB3Dataset
 from src.utils.label_encoder import LabelEncoder
+
+with open("configs/B3.yaml") as f:
+        cfg = yaml.safe_load(f)
 
 def visualize_classes(dataset, encoder, max_images_per_class=5):
     """
@@ -54,8 +59,8 @@ def main():
     encoder = LabelEncoder(class_names=class_names)
 
     dataset = VolleyballB3Dataset(
-        pickle_file=r"data_set/annot_all.pkl",
-        videos_root=r"data_set/videos",
+        pickle_file=cfg["data"]["annot_file"],
+        videos_root=os.path.join(cfg["data"]["videos_dir"],"videos"),
         video_list=["7","10"],
         encoder=encoder,
         transform=transform
@@ -67,6 +72,7 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
 
 
