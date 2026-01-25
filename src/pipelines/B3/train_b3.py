@@ -115,10 +115,10 @@ def train_b3(cfg):
     criterion = nn.CrossEntropyLoss()
 
     optimizer = torch.optim.AdamW(
-        model.parameters(),
-        lr=cfg["training"]["lr"],
-        weight_decay=cfg["training"]["weight_decay"]
-    )
+    filter(lambda p: p.requires_grad, model.parameters()),
+    lr=cfg["training"]["lr"],
+    weight_decay=cfg["training"]["weight_decay"])
+
 
     # scheduler = torch.optim.lr_scheduler.StepLR(
     #     optimizer,
