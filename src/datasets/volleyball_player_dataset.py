@@ -12,7 +12,7 @@ class VolleyballB3Dataset(Dataset):
         self.transform = transform
         self.encoder = encoder
         standing_count = 0
-        MAX_STANDING = 2500
+        MAX_STANDING = 5000
         STANDING_CLASS = 8
 
         self.samples = []   # (img_path, box_coords, label_int)
@@ -52,10 +52,10 @@ class VolleyballB3Dataset(Dataset):
                     for box in boxes:
                         label_int = self.encoder.encode(box.category)
 
-                        # if label_int == STANDING_CLASS:
-                        #     if standing_count >= MAX_STANDING:
-                        #         continue
-                        #     standing_count += 1
+                        if label_int == STANDING_CLASS:
+                            if standing_count >= MAX_STANDING:
+                                continue
+                            standing_count += 1
 
                         self.samples.append((img_path, box.box, label_int))
                         self.labels.append(label_int)
@@ -68,12 +68,12 @@ class VolleyballB3Dataset(Dataset):
 
         img_path, box_coords, label_int = self.samples[idx]
         x1, y1, x2, y2 = box_coords
-        w = x2 - x1
-        h = y2 - y1
-        x1 = max(0, x1 - 0.15 * w)
-        y1 = max(0, y1 - 0.15 * h)
-        x2 = x2 + 0.15 * w
-        y2 = y2 + 0.15 * h
+        # w = x2 - x1
+        # h = y2 - y1
+        # x1 = max(0, x1 - 0.15 * w)
+        # y1 = max(0, y1 - 0.15 * h)
+        # x2 = x2 + 0.15 * w
+        # y2 = y2 + 0.15 * h
 
         img = Image.open(img_path).convert("RGB")
         img_crop = img.crop((x1, y1, x2, y2))

@@ -112,7 +112,7 @@ def train_b3(cfg):
 
     # Model, criterion, optimizer
     model = ResNetB3(num_classes=cfg["num_classes"]).to(device)
-    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
+    criterion = nn.CrossEntropyLoss()
 
     optimizer = torch.optim.AdamW(
         model.parameters(),
