@@ -65,7 +65,7 @@ def train(model, train_loader, val_loader, criterion, optimizer, scheduler, devi
             train_loss += loss.item()
 
         train_loss /= len(train_loader)
-        train_f1 = f1_score(train_labels, train_preds, average="macro")
+        train_f1 = f1_score(train_labels, train_preds, average="weighted")
         train_loss_history.append(train_loss)
 
         # Validation 
@@ -86,7 +86,7 @@ def train(model, train_loader, val_loader, criterion, optimizer, scheduler, devi
                 val_labels.extend(labels.cpu().tolist())
 
         val_loss /= len(val_loader)
-        val_f1 = f1_score(val_labels, val_preds, average="macro")
+        val_f1 = f1_score(val_labels, val_preds, average="weighted")
 
         val_loss_history.append(val_loss)
         val_f1_history.append(val_f1)

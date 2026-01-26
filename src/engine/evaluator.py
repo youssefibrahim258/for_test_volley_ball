@@ -33,7 +33,7 @@ def evaluate(model,dataloader,device,cfg,logger,encoder,split_name="test"):
 
     # Metrics
     acc = accuracy_score(all_labels, all_preds)
-    f1 = f1_score(all_labels, all_preds, average="macro")
+    f1 = f1_score(all_labels, all_preds, average="weighted")
 
     classes = encoder.classes_
     report = classification_report(
