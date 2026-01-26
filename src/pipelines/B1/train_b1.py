@@ -1,7 +1,7 @@
 import os
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader,WeightedRandomSampler
 from torchvision import transforms
 from collections import Counter
 from torch.utils.tensorboard import SummaryWriter
@@ -79,21 +79,7 @@ def train_b1(cfg):
         transform=transform_val
     )
 
-    train_loader = DataLoader(
-        train_dataset,
-        batch_size=cfg["training"]["batch_size"],
-        shuffle=True,
-        num_workers=cfg["training"]["num_workers"],
-        pin_memory=True
-    )
 
-    val_loader = DataLoader(
-        val_dataset,
-        batch_size=cfg["training"]["batch_size"],
-        shuffle=False,
-        num_workers=0,
-        pin_memory=True
-    )
 
     # Class Weights
     labels_all = [label for _, label in train_dataset]
@@ -112,6 +98,31 @@ def train_b1(cfg):
         class_weights,
         dtype=torch.float
     ).to(device)
+
+    # WeightedRandomSampler
+    sample_weights = [class_weights[label].item() for label in labels_all]
+    sampler = WeightedRandomSampler(weights=sample_weights,
+                                    num_samples=len(sample_weights),
+                                    replacement=True)
+    
+
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=cfg["training"]["batch_size"],
+        sampler=sampler,
+        num_workers=cfg["training"]["num_workers"],
+        pin_memory=True
+    )
+
+    val_loader = DataLoader(
+        val_dataset,
+        batch_size=cfg["training"]["batch_size"],
+        shuffle=False,
+        num_workers=0,
+        pin_memory=True
+    )
+
+
 
     logger.info(f"Train class distribution: {counter}")
     logger.info(f"Class weights: {class_weights}")
@@ -135,12 +146,8 @@ def train_b1(cfg):
             gamma=0.1
         )
     else :
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-            optimizer,
-            T_max=cfg["training"]["epochs"],
-            eta_min=1e-6
-        )
-
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+                    optimizer, mode="max", factor=0.3, patience=2, min_lr=1e-6, threshold=1e-3)
     
     # Train
     start_mlflow(cfg["baseline"], cfg["output"]["mlruns_dir"])
