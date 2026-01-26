@@ -11,7 +11,7 @@ import torch
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", default="configs/B3.yaml")
+    parser.add_argument("--config", default="configs/B1.yaml")
     args = parser.parse_args()
 
     with open(args.config) as f:
@@ -23,7 +23,6 @@ def main():
     
     elif cfg["baseline"] == "B3":
         train_b3(cfg)
-        # return
         eval_b3(cfg)
     else:
         raise NotImplementedError(f"{cfg['baseline']} not implemented yet")
