@@ -1,0 +1,105 @@
+2026-01-08 07:30:35,950 [INFO] Starting B1 TEST evaluation
+2026-01-08 07:30:35,950 [INFO] Device: cuda
+2026-01-08 07:30:36,603 [INFO] TEST Accuracy: 0.0000
+2026-01-08 07:30:36,603 [INFO] TEST F1-score: 0.0000
+2026-01-08 07:30:36,603 [INFO] TEST Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00       0.0
+     r_spike       0.00      0.00      0.00       0.0
+      r-pass       0.00      0.00      0.00       0.0
+  r_winpoint       0.00      0.00      0.00       1.0
+  l_winpoint       0.00      0.00      0.00       0.0
+      l-pass       0.00      0.00      0.00       0.0
+     l-spike       0.00      0.00      0.00       1.0
+       l_set       0.00      0.00      0.00       0.0
+
+   micro avg       0.00      0.00      0.00       2.0
+   macro avg       0.00      0.00      0.00       2.0
+weighted avg       0.00      0.00      0.00       2.0
+
+2026-01-08 07:30:36,703 [INFO] B1 TEST evaluation finished successfully
+2026-01-08 08:28:17,298 [INFO] Starting B1 TEST evaluation
+2026-01-08 08:28:17,300 [INFO] Device: cuda
+2026-01-08 08:28:17,684 [INFO] TEST Accuracy: 0.0000
+2026-01-08 08:28:17,684 [INFO] TEST F1-score: 0.0000
+2026-01-08 08:28:17,684 [INFO] TEST Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00       0.0
+     r_spike       0.00      0.00      0.00       0.0
+      r-pass       0.00      0.00      0.00       0.0
+  r_winpoint       0.00      0.00      0.00       1.0
+  l_winpoint       0.00      0.00      0.00       0.0
+      l-pass       0.00      0.00      0.00       0.0
+     l-spike       0.00      0.00      0.00       1.0
+       l_set       0.00      0.00      0.00       0.0
+
+   micro avg       0.00      0.00      0.00       2.0
+   macro avg       0.00      0.00      0.00       2.0
+weighted avg       0.00      0.00      0.00       2.0
+
+2026-01-08 08:28:17,730 [INFO] B1 TEST evaluation finished successfully
+2026-01-08 08:38:48,074 [INFO] Starting B1 TEST evaluation
+2026-01-08 08:38:48,074 [INFO] Device: cuda
+2026-01-08 08:38:48,432 [INFO] TEST Accuracy: 0.0000
+2026-01-08 08:38:48,434 [INFO] TEST F1-score: 0.0000
+2026-01-08 08:38:48,434 [INFO] TEST Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00       0.0
+     r_spike       0.00      0.00      0.00       0.0
+      r-pass       0.00      0.00      0.00       0.0
+  r_winpoint       0.00      0.00      0.00       1.0
+  l_winpoint       0.00      0.00      0.00       0.0
+      l-pass       0.00      0.00      0.00       0.0
+     l-spike       0.00      0.00      0.00       1.0
+       l_set       0.00      0.00      0.00       0.0
+
+   micro avg       0.00      0.00      0.00       2.0
+   macro avg       0.00      0.00      0.00       2.0
+weighted avg       0.00      0.00      0.00       2.0
+
+2026-01-08 08:38:48,488 [INFO] B1 TEST evaluation finished successfully
+2026-01-08 08:42:39,368 [INFO] Starting B1 TEST evaluation
+2026-01-08 08:42:39,368 [INFO] Device: cuda
+2026-01-08 08:42:40,021 [INFO] TEST Accuracy: 0.0000
+2026-01-08 08:42:40,025 [INFO] TEST F1-score: 0.0000
+2026-01-08 08:42:40,025 [INFO] TEST Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00       0.0
+     r_spike       0.00      0.00      0.00       0.0
+      r-pass       0.00      0.00      0.00       0.0
+  r_winpoint       0.00      0.00      0.00       1.0
+  l_winpoint       0.00      0.00      0.00       0.0
+      l-pass       0.00      0.00      0.00       0.0
+     l-spike       0.00      0.00      0.00       1.0
+       l_set       0.00      0.00      0.00       0.0
+
+   micro avg       0.00      0.00      0.00       2.0
+   macro avg       0.00      0.00      0.00       2.0
+weighted avg       0.00      0.00      0.00       2.0
+
+2026-01-08 08:42:40,118 [INFO] B1 TEST evaluation finished successfully
+2026-01-08 10:06:42,168 [INFO] Starting B1 TEST evaluation
+2026-01-08 10:06:42,169 [INFO] Device: cuda
+2026-01-08 10:06:42,525 [INFO] TEST Accuracy: 0.0000
+2026-01-08 10:06:42,525 [INFO] TEST F1-score: 0.0000
+2026-01-08 10:06:42,525 [INFO] TEST Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00       0.0
+     r_spike       0.00      0.00      0.00       0.0
+      r-pass       0.00      0.00      0.00       0.0
+  r_winpoint       0.00      0.00      0.00       1.0
+  l_winpoint       0.00      0.00      0.00       0.0
+      l-pass       0.00      0.00      0.00       0.0
+     l-spike       0.00      0.00      0.00       1.0
+       l_set       0.00      0.00      0.00       0.0
+
+   micro avg       0.00      0.00      0.00       2.0
+   macro avg       0.00      0.00      0.00       2.0
+weighted avg       0.00      0.00      0.00       2.0
+
+2026-01-08 10:06:42,580 [INFO] B1 TEST evaluation finished successfully

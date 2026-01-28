@@ -1,0 +1,130 @@
+2026-01-08 07:30:32,851 [INFO] Starting B1 Training
+2026-01-08 07:30:32,851 [INFO] Device: cuda
+2026-01-08 07:30:32,975 [INFO] Train class distribution: Counter({3: 1, 6: 1, 2: 1, 7: 1})
+2026-01-08 07:30:33,043 [INFO] Class weights: tensor([0.0000, 0.0000, 0.5000, 0.5000, 0.0000, 0.0000, 0.5000, 0.5000],
+       device='cuda:0')
+2026-01-08 07:30:34,496 [INFO] [Epoch 1/3] Train Loss: 2.3115 | Train F1: 0.0000 | Val Loss: 2.2404 | Val F1: 0.0000
+2026-01-08 07:30:34,856 [INFO] [Epoch 2/3] Train Loss: 2.0483 | Train F1: 0.1250 | Val Loss: 1.9769 | Val F1: 0.3333
+2026-01-08 07:30:35,195 [INFO] [Epoch 3/3] Train Loss: 1.8803 | Train F1: 0.3333 | Val Loss: 1.8874 | Val F1: 0.3333
+2026-01-08 07:30:35,374 [INFO] Final Validation Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00         0
+     r_spike       0.00      0.00      0.00         0
+      r-pass       0.50      1.00      0.67         1
+  r_winpoint       0.00      0.00      0.00         0
+  l_winpoint       0.00      0.00      0.00         0
+      l-pass       0.00      0.00      0.00         0
+     l-spike       0.00      0.00      0.00         0
+       l_set       0.00      0.00      0.00         1
+
+   micro avg       0.50      0.50      0.50         2
+   macro avg       0.06      0.12      0.08         2
+weighted avg       0.25      0.50      0.33         2
+
+2026-01-08 07:30:35,943 [INFO] B1 Training Finished
+2026-01-08 08:28:14,948 [INFO] Starting B1 Training
+2026-01-08 08:28:14,948 [INFO] Device: cuda
+2026-01-08 08:28:15,081 [INFO] Train class distribution: Counter({3: 1, 6: 1, 2: 1, 7: 1})
+2026-01-08 08:28:15,155 [INFO] Class weights: tensor([0.0000, 0.0000, 0.5000, 0.5000, 0.0000, 0.0000, 0.5000, 0.5000],
+       device='cuda:0')
+2026-01-08 08:28:16,210 [INFO] [Epoch 1/3] Train Loss: 2.3630 | Train F1: 0.0000 | Val Loss: 2.3187 | Val F1: 0.0000
+2026-01-08 08:28:16,465 [INFO] [Epoch 2/3] Train Loss: 2.1074 | Train F1: 0.1000 | Val Loss: 2.1156 | Val F1: 0.3333
+2026-01-08 08:28:16,709 [INFO] [Epoch 3/3] Train Loss: 1.8443 | Train F1: 0.1667 | Val Loss: 2.0115 | Val F1: 0.3333
+2026-01-08 08:28:16,846 [INFO] Final Validation Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00         0
+     r_spike       0.00      0.00      0.00         0
+      r-pass       1.00      1.00      1.00         1
+  r_winpoint       0.00      0.00      0.00         0
+  l_winpoint       0.00      0.00      0.00         0
+      l-pass       0.00      0.00      0.00         0
+     l-spike       0.00      0.00      0.00         0
+       l_set       0.00      0.00      0.00         1
+
+   micro avg       0.50      0.50      0.50         2
+   macro avg       0.12      0.12      0.12         2
+weighted avg       0.50      0.50      0.50         2
+
+2026-01-08 08:28:17,297 [INFO] B1 Training Finished
+2026-01-08 08:38:19,436 [INFO] Starting B1 Training
+2026-01-08 08:38:19,436 [INFO] Device: cuda
+2026-01-08 08:38:19,562 [INFO] Train class distribution: Counter({3: 1, 6: 1, 2: 1, 7: 1})
+2026-01-08 08:38:19,629 [INFO] Class weights: tensor([0.0000, 0.0000, 0.5000, 0.5000, 0.0000, 0.0000, 0.5000, 0.5000],
+       device='cuda:0')
+2026-01-08 08:38:46,115 [INFO] Starting B1 Training
+2026-01-08 08:38:46,115 [INFO] Device: cuda
+2026-01-08 08:38:46,239 [INFO] Train class distribution: Counter({3: 1, 6: 1, 2: 1, 7: 1})
+2026-01-08 08:38:46,303 [INFO] Class weights: tensor([0.0000, 0.0000, 0.5000, 0.5000, 0.0000, 0.0000, 0.5000, 0.5000],
+       device='cuda:0')
+2026-01-08 08:38:47,199 [INFO] [Epoch 1/3] Train Loss: 2.3629 | Train F1: 0.0000 | Val Loss: 2.3184 | Val F1: 0.0000
+2026-01-08 08:38:47,452 [INFO] [Epoch 2/3] Train Loss: 2.1011 | Train F1: 0.0000 | Val Loss: 2.0467 | Val F1: 0.3333
+2026-01-08 08:38:47,678 [INFO] [Epoch 3/3] Train Loss: 1.7562 | Train F1: 0.1250 | Val Loss: 1.7844 | Val F1: 0.3333
+2026-01-08 08:38:47,798 [INFO] Final Validation Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00         0
+     r_spike       0.00      0.00      0.00         0
+      r-pass       1.00      1.00      1.00         1
+  r_winpoint       0.00      0.00      0.00         0
+  l_winpoint       0.00      0.00      0.00         0
+      l-pass       0.00      0.00      0.00         0
+     l-spike       0.00      0.00      0.00         0
+       l_set       0.00      0.00      0.00         1
+
+   micro avg       0.50      0.50      0.50         2
+   macro avg       0.12      0.12      0.12         2
+weighted avg       0.50      0.50      0.50         2
+
+2026-01-08 08:38:48,074 [INFO] B1 Training Finished
+2026-01-08 08:42:36,227 [INFO] Starting B1 Training
+2026-01-08 08:42:36,227 [INFO] Device: cuda
+2026-01-08 08:42:36,375 [INFO] Train class distribution: Counter({3: 1, 6: 1, 2: 1, 7: 1})
+2026-01-08 08:42:36,493 [INFO] Class weights: tensor([0.0000, 0.0000, 0.5000, 0.5000, 0.0000, 0.0000, 0.5000, 0.5000],
+       device='cuda:0')
+2026-01-08 08:42:37,923 [INFO] [Epoch 1/3] Train Loss: 2.3631 | Train F1: 0.0000 | Val Loss: 2.3200 | Val F1: 0.0000
+2026-01-08 08:42:38,309 [INFO] [Epoch 2/3] Train Loss: 2.1014 | Train F1: 0.0000 | Val Loss: 2.0490 | Val F1: 0.3333
+2026-01-08 08:42:38,653 [INFO] [Epoch 3/3] Train Loss: 1.7550 | Train F1: 0.1250 | Val Loss: 1.7970 | Val F1: 0.3333
+2026-01-08 08:42:38,838 [INFO] Final Validation Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00         0
+     r_spike       0.00      0.00      0.00         0
+      r-pass       1.00      1.00      1.00         1
+  r_winpoint       0.00      0.00      0.00         0
+  l_winpoint       0.00      0.00      0.00         0
+      l-pass       0.00      0.00      0.00         0
+     l-spike       0.00      0.00      0.00         0
+       l_set       0.00      0.00      0.00         1
+
+   micro avg       0.50      0.50      0.50         2
+   macro avg       0.12      0.12      0.12         2
+weighted avg       0.50      0.50      0.50         2
+
+2026-01-08 08:42:39,368 [INFO] B1 Training Finished
+2026-01-08 10:06:39,860 [INFO] Starting B1 Training
+2026-01-08 10:06:39,860 [INFO] Device: cuda
+2026-01-08 10:06:39,997 [INFO] Train class distribution: Counter({3: 1, 6: 1, 2: 1, 7: 1})
+2026-01-08 10:06:40,071 [INFO] Class weights: tensor([0.0000, 0.0000, 0.5000, 0.5000, 0.0000, 0.0000, 0.5000, 0.5000],
+       device='cuda:0')
+2026-01-08 10:06:41,078 [INFO] [Epoch 1/3] Train Loss: 2.3630 | Train F1: 0.0000 | Val Loss: 2.3134 | Val F1: 0.0000
+2026-01-08 10:06:41,350 [INFO] [Epoch 2/3] Train Loss: 2.1010 | Train F1: 0.0000 | Val Loss: 1.9799 | Val F1: 0.3333
+2026-01-08 10:06:41,599 [INFO] [Epoch 3/3] Train Loss: 1.7545 | Train F1: 0.1250 | Val Loss: 1.6737 | Val F1: 0.3333
+2026-01-08 10:06:41,721 [INFO] Final Validation Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00         0
+     r_spike       0.00      0.00      0.00         0
+      r-pass       1.00      1.00      1.00         1
+  r_winpoint       0.00      0.00      0.00         0
+  l_winpoint       0.00      0.00      0.00         0
+      l-pass       0.00      0.00      0.00         0
+     l-spike       0.00      0.00      0.00         0
+       l_set       0.00      0.00      0.00         1
+
+   micro avg       0.50      0.50      0.50         2
+   macro avg       0.12      0.12      0.12         2
+weighted avg       0.50      0.50      0.50         2
+
+2026-01-08 10:06:42,165 [INFO] B1 Training Finished
