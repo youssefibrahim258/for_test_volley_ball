@@ -97,8 +97,8 @@ def train_stage2(cfg):
 
     # Model / Loss / Optimizer
     model = Stage2Classifier(
-        input_dim=2048,
-        hidden_dim=1024,
+        input_dim=4096,
+        hidden_dim=2048,
         num_classes=num_classes,
         dropout=0.5
     ).to(device)

@@ -1,0 +1,14 @@
+artifact_uri: file:///Y:/02_DL/200_projects/for_test_volley_ball/outputs/B3/stage_2/mlruns/201170088686559213/4787d43673a74b4982de763869571940/artifacts
+end_time: 1770706240949
+entry_point_name: ''
+experiment_id: '201170088686559213'
+lifecycle_stage: active
+run_id: 4787d43673a74b4982de763869571940
+run_name: B3_stage2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770706003000
+status: 3
+tags: []
+user_id: '20102'

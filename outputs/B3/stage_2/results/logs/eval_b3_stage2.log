@@ -42,3 +42,24 @@ weighted avg       0.25      0.50      0.33         2
 weighted avg       1.00      1.00      1.00         2
 
 2026-02-10 07:14:41,648 [INFO] B3 Stage2 TEST evaluation finished successfully
+2026-02-10 08:50:40,965 [INFO] Starting B3 Stage2 TEST evaluation
+2026-02-10 08:50:40,965 [INFO] Device: cuda
+2026-02-10 08:51:03,327 [INFO] TEST Accuracy: 0.0000
+2026-02-10 08:51:03,327 [INFO] TEST F1-score: 0.0000
+2026-02-10 08:51:03,327 [INFO] TEST Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00       0.0
+     r_spike       0.00      0.00      0.00       0.0
+      r-pass       0.00      0.00      0.00       1.0
+  r_winpoint       0.00      0.00      0.00       0.0
+  l_winpoint       0.00      0.00      0.00       0.0
+      l-pass       0.00      0.00      0.00       0.0
+     l-spike       0.00      0.00      0.00       0.0
+       l_set       0.00      0.00      0.00       1.0
+
+   micro avg       0.00      0.00      0.00       2.0
+   macro avg       0.00      0.00      0.00       2.0
+weighted avg       0.00      0.00      0.00       2.0
+
+2026-02-10 08:51:03,383 [INFO] B3 Stage2 TEST evaluation finished successfully

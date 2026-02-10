@@ -49,8 +49,8 @@ def eval_b3_stage2(cfg):
     # Model
     num_classes = len(encoder.classes_)
     model = Stage2Classifier(
-        input_dim=2048,
-        hidden_dim=1024,
+        input_dim=4096,
+        hidden_dim=2048,
         num_classes=num_classes,
         dropout=0.5
     ).to(device)

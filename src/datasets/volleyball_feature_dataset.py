@@ -26,8 +26,10 @@ class VolleyballB3_stage2(Dataset):
                 feuture_path=os.path.join(feuture_root,video_dir,f"{clip_dir}.npz")
                 data=np.load(feuture_path)
 
-                features = data['features']   # (12, 2048)
-                pooled_feature = np.max(features, axis=0)
+                features = data['features']   # (num_players, 2048)
+                max_feat = np.max(features, axis=0)
+                mean_feat = np.mean(features, axis=0)
+                pooled_feature = np.concatenate([max_feat, mean_feat])
 
                 label_str = clip_data['category']
                 label_int = self.encoder.encode(label_str)
@@ -39,9 +41,9 @@ class VolleyballB3_stage2(Dataset):
 
     def __getitem__(self, idx):
         pooled_feature, label = self.samples[idx]
+        pooled_feature = torch.from_numpy(pooled_feature).float()
         if self.transform:
             pooled_feature = self.transform(pooled_feature)
-            
         return pooled_feature, label
 
 
