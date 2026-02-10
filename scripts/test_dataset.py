@@ -1,78 +1,69 @@
-
 # python -m scripts.test_dataset
-import matplotlib.pyplot as plt
+
 import yaml
 import os
-from torchvision import transforms
-from src.datasets.volleyball_player_dataset import VolleyballB3Dataset
+import numpy as np
+from collections import Counter
+
+from src.datasets.volleyball_feature_dataset import VolleyballB3_stage2
 from src.utils.label_encoder import LabelEncoder
 
-with open("configs/B3.yaml") as f:
-        cfg = yaml.safe_load(f)
 
-def visualize_classes(dataset, encoder, max_images_per_class=5):
-    """
-    عرض أمثلة من كل class.
-    - dataset: الـ dataset object
-    - encoder: الـ label encoder
-    - max_images_per_class: عدد الصور اللي عايز تظهر لكل class
-    """
-    # جهز dict لتخزين الصور لكل class
-    class_images = {cls: [] for cls in encoder.classes_}
+with open("configs/B3_b.yaml") as f:
+    cfg = yaml.safe_load(f)
 
-    # loop على dataset
+
+def test_stage2_dataset(dataset, encoder, max_samples=5):
+    print("=" * 50)
+    print("Stage 2 Dataset Test")
+    print("=" * 50)
+
+    print("Total samples:", len(dataset))
+
+    labels = []
     for i in range(len(dataset)):
-        img, label_id = dataset[i]
-        label_name = encoder.decode(label_id)
+        _, label = dataset[i]
+        labels.append(label)
 
-        if len(class_images[label_name]) < max_images_per_class:
-            class_images[label_name].append(img)
+    # ===== class distribution =====
+    print("\nClass distribution:")
+    counter = Counter(labels)
+    for label_id, count in counter.items():
+        print(f"{encoder.decode(label_id):>15s} : {count}")
 
-        # اكسر لو جمعنا العدد المطلوب لكل class
-        if all(len(v) >= max_images_per_class for v in class_images.values()):
-            break
+    # ===== sample inspection =====
+    print("\nSample feature inspection:")
+    for i in range(min(max_samples, len(dataset))):
+        feat, label = dataset[i]
 
-    # عرض الصور
-    for cls, imgs in class_images.items():
-        plt.figure(figsize=(15, 3))
-        plt.suptitle(cls, fontsize=16)
-        for idx, img in enumerate(imgs):
-            img_np = img.permute(1, 2, 0).numpy()
-            plt.subplot(1, max_images_per_class, idx + 1)
-            plt.imshow(img_np)
-            plt.axis('off')
-        plt.show()
+        print(
+            f"Sample {i:02d} | "
+            f"Class: {encoder.decode(label):>15s} | "
+            f"Shape: {tuple(feat.shape)} | "
+            f"Min: {feat.min():.4f} | "
+            f"Max: {feat.max():.4f} | "
+            f"Mean: {feat.mean():.4f}"
+        )
+
+        assert feat.shape[0] == 2048, "❌ Feature dim is not 2048!"
+        assert not np.isnan(feat).any(), "❌ NaN detected in features!"
+        assert not np.isinf(feat).any(), "❌ Inf detected in features!"
+
+    print("\n✅ Dataset looks GOOD!")
 
 
 def main():
-    transform = transforms.Compose([
-        transforms.Resize((224,224)),
-        transforms.RandomHorizontalFlip(0.5),
-        transforms.RandomRotation(15),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485,0.456,0.406], std=[0.229,0.224,0.225])
-    ])
+    encoder = LabelEncoder(class_names=cfg["labels"]["class_names"])
 
-    class_names = ["waiting", "setting", "digging", "falling", "spiking", "blocking",
-                   "jumping", "moving", "standing"]
-    encoder = LabelEncoder(class_names=class_names)
-
-    dataset = VolleyballB3Dataset(
+    dataset = VolleyballB3_stage2(
         pickle_file=cfg["data"]["annot_file"],
-        videos_root=os.path.join(cfg["data"]["videos_dir"],"videos"),
-        video_list=["7","10"],
-        encoder=encoder,
-        transform=transform
+        videos_root=os.path.join(cfg["data"]["videos_dir"], "videos"),
+        video_list = [str(v) for v in cfg["data"]["splits"]["train"]],
+        feuture_root=cfg["feature_path"],
+        encoder=encoder
     )
-
-    print("Dataset size:", len(dataset))
-
-    visualize_classes(dataset, encoder, max_images_per_class=5)
+    test_stage2_dataset(dataset, encoder)
 
 
 if __name__ == "__main__":
-
     main()
-
-

@@ -24,7 +24,7 @@ class ResNetB3(nn.Module):
 
 
 
-with open("configs/B3.yaml") as f:
+with open("configs/B3_b.yaml") as f:
     cfg = yaml.safe_load(f)
 
 dataset_root = cfg["data"]["videos_dir"]
@@ -64,7 +64,7 @@ def prepare_model(image_level=False):
 
     model = ResNetB3(num_classes=9)
 
-    state_dict = torch.load("checkpoints/best.pt", map_location=device)
+    state_dict = torch.load(cfg["model_path"], map_location=device)
     model.load_state_dict(state_dict, strict=False)
 
     model.model.fc = nn.Identity()
@@ -79,52 +79,66 @@ def prepare_model(image_level=False):
 def extract_features(clip_dir_path, annot_file, output_file, model, preprocess, device, image_level=False):
     frame_boxes = load_tracking_annot(annot_file)
 
+    if len(frame_boxes) == 0:
+        return
+
+    frame_ids = sorted(frame_boxes.keys())
+    mid_idx = len(frame_ids) // 2
+    mid_frame_id = frame_ids[mid_idx]
+
+    boxes_info = frame_boxes[mid_frame_id]
+
     all_features = []
     all_frame_ids = []
     all_player_ids = []
 
     with torch.no_grad():
-        for frame_id, boxes_info in frame_boxes.items():
-            try:
-                img_path = os.path.join(clip_dir_path, f'{frame_id}.jpg')
-                image = Image.open(img_path).convert('RGB')
+        try:
+            img_path = os.path.join(clip_dir_path, f'{mid_frame_id}.jpg')
+            image = Image.open(img_path).convert('RGB')
 
-                if image_level:
-                    x = preprocess(image).unsqueeze(0).to(device)
-                    feats = model(x)
-                    feats = feats.view(1, -1)
+            if image_level:
+                x = preprocess(image).unsqueeze(0).to(device)
+                feats = model(x)
+                feats = feats.view(1, -1)
 
-                    all_features.append(feats.cpu().numpy())
-                    all_frame_ids.append(frame_id)
-                    all_player_ids.append(0)  # 0 = whole image
+                all_features.append(feats.cpu().numpy())
+                all_frame_ids.append(mid_frame_id)
+                all_player_ids.append(0)  # whole image
 
-                else:
-                    crops = []
-                    for idx, box_info in enumerate(boxes_info):
-                        x1, y1, x2, y2 = box_info.box
-                        crop = image.crop((x1, y1, x2, y2))
-                        crops.append(preprocess(crop).unsqueeze(0))
+            else:
+                crops = []
+                for idx, box_info in enumerate(boxes_info):
+                    x1, y1, x2, y2 = box_info.box
+                    crop = image.crop((x1, y1, x2, y2))
+                    crops.append(preprocess(crop).unsqueeze(0))
 
-                    if len(crops) == 0:
-                        continue
+                if len(crops) == 0:
+                    return
 
-                    x = torch.cat(crops).to(device)
-                    feats = model(x)
-                    feats = feats.squeeze(-1).squeeze(-1)  # shape (num_players, 2048)
+                x = torch.cat(crops).to(device)
+                feats = model(x)
+                feats = feats.squeeze(-1).squeeze(-1)  # (num_players, 2048)
 
-                    all_features.append(feats.cpu().numpy())
-                    all_frame_ids.extend([frame_id]*feats.size(0))
-                    all_player_ids.extend(list(range(len(crops))))
+                all_features.append(feats.cpu().numpy())
+                all_frame_ids.extend([mid_frame_id] * feats.size(0))
+                all_player_ids.extend(list(range(len(crops))))
 
-            except Exception as e:
-                print(f"Error in frame {frame_id}: {e}")
+        except Exception as e:
+            print(f"Error in frame {mid_frame_id}: {e}")
+            return
 
     if len(all_features) > 0:
         all_features = np.concatenate(all_features, axis=0)
         all_frame_ids = np.array(all_frame_ids)
         all_player_ids = np.array(all_player_ids)
-        np.savez(output_file, features=all_features, frame_ids=all_frame_ids, player_ids=all_player_ids)
 
+        np.savez(
+            output_file,
+            features=all_features,
+            frame_ids=all_frame_ids,
+            player_ids=all_player_ids
+        )
 
 
 if __name__ == '__main__':

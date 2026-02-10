@@ -1,0 +1,55 @@
+baseline: B3_stage2
+seed: 42
+num_classes: 8
+
+experiment:
+  name: "Baseline_B3_stage2"
+  description: >
+    ResNet50 baseline extracting features from player crops per frame,
+    max-pooled to image-level, for 8-class action classification.
+
+  version: 1
+
+
+data:
+  annot_file: data_set/annot_all.pkl
+  videos_dir: data_set
+  splits:
+    train: [7,10,7,10]
+    val: [7,10]
+    test: [10]
+
+
+labels:
+  class_names: 
+    - r_set
+    - r_spike
+    - r-pass
+    - r_winpoint
+    - l_winpoint
+    - l-pass
+    - l-spike
+    - l_set
+
+training:
+  epochs: 5
+  batch_size: 5
+  lr: 0.0001
+  optimizer: AdamW
+  weight_decay: 0.0001
+  num_workers: 4
+  mixup: False
+  scheduler: "StepLR"
+
+
+model_path: "outputs/B3/stage_1/checkpoints/best.pt"
+feature_path: "Y:/02_DL/200_projects/for_test_volley_ball/data_set/features/image-level/resnet"
+
+
+output:
+  base_dir: outputs/B3/stage_2
+  checkpoints_dir: outputs/B3/stage_2/checkpoints
+  results_dir: outputs/B3/stage_2/results
+  mlruns_dir: outputs/B3/stage_2/mlruns
+
+
