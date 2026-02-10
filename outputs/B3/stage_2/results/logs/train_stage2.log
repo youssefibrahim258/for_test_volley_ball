@@ -91,3 +91,80 @@ weighted avg       0.00      0.00      0.00       2.0
 weighted avg       0.50      0.50      0.50         2
 
 2026-02-10 06:40:15,841 [INFO] Stage 2 Training Finished
+2026-02-10 07:01:22,477 [INFO] Starting B3 Training
+2026-02-10 07:01:22,477 [INFO] Device: cuda
+2026-02-10 07:01:22,577 [INFO] Train class distribution: Counter({3: 2, 6: 2, 2: 2, 7: 2})
+2026-02-10 07:01:22,656 [INFO] Class weights: tensor([0.0000, 0.0000, 0.5000, 0.5000, 0.0000, 0.0000, 0.5000, 0.5000],
+       device='cuda:0')
+2026-02-10 07:02:09,117 [INFO] [Epoch 1/5] Train Loss: 1.8778 | Train F1: 0.3375 | Val Loss: 2.0669 | Val F1: 0.1000
+2026-02-10 07:02:54,272 [INFO] [Epoch 2/5] Train Loss: 1.6780 | Train F1: 0.6250 | Val Loss: 2.0629 | Val F1: 0.1000
+2026-02-10 07:03:39,341 [INFO] [Epoch 3/5] Train Loss: 1.2123 | Train F1: 1.0000 | Val Loss: 2.0582 | Val F1: 0.1000
+2026-02-10 07:04:24,680 [INFO] [Epoch 4/5] Train Loss: 0.6272 | Train F1: 1.0000 | Val Loss: 2.0529 | Val F1: 0.3750
+2026-02-10 07:05:09,853 [INFO] [Epoch 5/5] Train Loss: 0.6076 | Train F1: 1.0000 | Val Loss: 2.0467 | Val F1: 0.6667
+2026-02-10 07:05:39,698 [INFO] Final Validation Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00         0
+     r_spike       0.00      0.00      0.00         0
+      r-pass       1.00      1.00      1.00         1
+  r_winpoint       0.00      0.00      0.00         1
+  l_winpoint       0.00      0.00      0.00         0
+      l-pass       0.00      0.00      0.00         0
+     l-spike       1.00      1.00      1.00         1
+       l_set       0.50      1.00      0.67         1
+
+   micro avg       0.75      0.75      0.75         4
+   macro avg       0.31      0.38      0.33         4
+weighted avg       0.62      0.75      0.67         4
+
+2026-02-10 07:05:40,368 [INFO] Stage 2 Training Finished
+2026-02-10 07:08:04,834 [INFO] Starting B3 Training
+2026-02-10 07:08:04,834 [INFO] Device: cuda
+2026-02-10 07:08:04,909 [INFO] Train class distribution: Counter({3: 2, 6: 2, 2: 2, 7: 2})
+2026-02-10 07:08:04,975 [INFO] Class weights: tensor([0.0000, 0.0000, 0.5000, 0.5000, 0.0000, 0.0000, 0.5000, 0.5000],
+       device='cuda:0')
+2026-02-10 07:08:50,824 [INFO] [Epoch 1/1] Train Loss: 1.8778 | Train F1: 0.3375 | Val Loss: 2.0669 | Val F1: 0.1000
+2026-02-10 07:09:13,656 [INFO] Final Validation Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00         0
+     r_spike       0.00      0.00      0.00         0
+      r-pass       0.00      0.00      0.00         1
+  r_winpoint       0.00      0.00      0.00         1
+  l_winpoint       0.00      0.00      0.00         0
+      l-pass       0.00      0.00      0.00         0
+     l-spike       0.00      0.00      0.00         1
+       l_set       0.25      1.00      0.40         1
+
+   micro avg       0.25      0.25      0.25         4
+   macro avg       0.03      0.12      0.05         4
+weighted avg       0.06      0.25      0.10         4
+
+2026-02-10 07:09:13,972 [INFO] Stage 2 Training Finished
+2026-02-10 07:10:01,295 [INFO] Starting B3 Training
+2026-02-10 07:10:01,295 [INFO] Device: cuda
+2026-02-10 07:10:01,362 [INFO] Train class distribution: Counter({3: 2, 6: 2, 2: 2, 7: 2})
+2026-02-10 07:10:01,431 [INFO] Class weights: tensor([0.0000, 0.0000, 0.5000, 0.5000, 0.0000, 0.0000, 0.5000, 0.5000],
+       device='cuda:0')
+2026-02-10 07:10:49,313 [INFO] [Epoch 1/5] Train Loss: 1.8778 | Train F1: 0.3375 | Val Loss: 2.0669 | Val F1: 0.1000
+2026-02-10 07:11:37,003 [INFO] [Epoch 2/5] Train Loss: 1.6780 | Train F1: 0.6250 | Val Loss: 2.0629 | Val F1: 0.1000
+2026-02-10 07:12:24,830 [INFO] [Epoch 3/5] Train Loss: 1.2123 | Train F1: 1.0000 | Val Loss: 2.0582 | Val F1: 0.1000
+2026-02-10 07:13:10,195 [INFO] [Epoch 4/5] Train Loss: 0.6272 | Train F1: 1.0000 | Val Loss: 2.0529 | Val F1: 0.3750
+2026-02-10 07:13:55,523 [INFO] [Epoch 5/5] Train Loss: 0.6076 | Train F1: 1.0000 | Val Loss: 2.0467 | Val F1: 0.6667
+2026-02-10 07:14:18,375 [INFO] Final Validation Classification Report:
+              precision    recall  f1-score   support
+
+       r_set       0.00      0.00      0.00         0
+     r_spike       0.00      0.00      0.00         0
+      r-pass       1.00      1.00      1.00         1
+  r_winpoint       0.00      0.00      0.00         1
+  l_winpoint       0.00      0.00      0.00         0
+      l-pass       0.00      0.00      0.00         0
+     l-spike       1.00      1.00      1.00         1
+       l_set       0.50      1.00      0.67         1
+
+   micro avg       0.75      0.75      0.75         4
+   macro avg       0.31      0.38      0.33         4
+weighted avg       0.62      0.75      0.67         4
+
+2026-02-10 07:14:18,700 [INFO] Stage 2 Training Finished

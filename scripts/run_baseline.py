@@ -7,6 +7,7 @@ from src.pipelines.B1.eval_b1 import eval_b1
 from src.pipelines.B3.train_b3 import train_b3
 from src.pipelines.B3.eval_b3 import eval_b3
 from src.pipelines.B3_satge2.train_b3_stage2 import train_stage2
+from src.pipelines.B3_satge2.val_b3_stage2 import eval_b3_stage2
 import torch
 
 
@@ -28,6 +29,7 @@ def main():
 
     elif cfg["baseline"] == "B3_stage2":
         train_stage2(cfg)
+        eval_b3_stage2(cfg)
 
 
     else:
