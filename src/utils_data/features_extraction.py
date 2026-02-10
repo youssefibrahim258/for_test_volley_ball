@@ -149,7 +149,7 @@ if __name__ == '__main__':
 
     videos_root = f'{dataset_root}/videos'
     annot_root = f'{dataset_root}/volleyball_tracking_annotation'
-    output_root = f'{dataset_root}/features/image-level/resnet'
+    output_root = cfg["feature_path"]
 
     videos_dirs = sorted(os.listdir(videos_root))
 
